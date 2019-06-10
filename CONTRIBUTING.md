@@ -1,3 +1,13 @@
+### Building 
+Install pipenv:
+    If on macos : brew install pipenv
+    Otherwise refer to pipenv website
+
+Then run 
+    pipenv install 
+to install dependencies and setup the virtualenv
+To enter the virtualenv
+    pipenv shell
 ### Pull Requests
 
 Here are some reasons why a pull request may not be merged:
