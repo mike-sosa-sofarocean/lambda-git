@@ -90,8 +90,11 @@ def exec_command(*args, **kwargs):
         newline = os.linesep
         stdout, stderr = p.communicate( newline.join(options['clinput']) )
     else:
-        p = subprocess.Popen(command, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE, cwd=options['cwd'],
+        p = subprocess.Popen(command, 
+                             stdout=subprocess.PIPE,
+                             stdin=subprocess.PIPE,
+                             stderr=subprocess.PIPE, 
+                             cwd=options['cwd'],
                              env=options['env'])
         stdout, stderr = p.communicate()
     
