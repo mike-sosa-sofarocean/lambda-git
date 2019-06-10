@@ -80,20 +80,26 @@ def exec_command(*args, **kwargs):
     options = dict({'cwd': '/tmp', 'env': os.environ}, **kwargs)
     command = ['git'] + list(args)
     LOGGER.info('executing git command: "{}"'.format(' '.join(command)))
-    LOGGER.info('Test')
+
     p, stdout, stderr = None, None, None
 
     if 'clinput' in options:
         LOGGER.info('Inputting command line arguments')
-        p = subprocess.Popen(command, 
-                             stdin  = subprocess.PIPE, 
-                             stdout = subprocess.PIPE,
-                             stderr = subprocess.PIPE,
-                             cwd=options['cwd'],
-                             env=options['env'], 
-                             universal_newlines=True)
         newline = os.linesep
-        stdout, stderr = p.communicate( newline.join(options['clinput']) )
+        p = subprocess.run(command,
+                           stdout   = PIPE,
+                           input    = newline.join(options['clinput'])
+                           encoding = 'utf-8'
+        )
+        # p = subprocess.Popen(command, 
+        #                      stdin  = subprocess.PIPE, 
+        #                      stdout = subprocess.PIPE,
+        #                      stderr = subprocess.PIPE,
+        #                      cwd=options['cwd'],
+        #                      env=options['env'], 
+        #                      universal_newlines=True)
+
+        # stdout, stderr = p.communicate( newline.join(options['clinput']) )
     else:
         p = subprocess.Popen(command, 
                              stdout=subprocess.PIPE,
@@ -106,7 +112,7 @@ def exec_command(*args, **kwargs):
         LOGGER.error('git failed with {} returncode'.format(p.returncode))
         raise GitExecutionError(
             'command={} returncode={} stdout="{}" '
-            'stderr="{}"'.format(command, p.returncode, stdout, stderr)
+            'stderr="{}"'.format(command, p.returncode, p.stdout, p.stderr)
         )
     return stdout, stderr
         
