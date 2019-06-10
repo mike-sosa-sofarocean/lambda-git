@@ -88,7 +88,7 @@ def exec_command(*args, **kwargs):
         newline = os.linesep
         p = subprocess.run(command,
                            stdout   = PIPE,
-                           input    = newline.join(options['clinput'])
+                           input    = newline.join(options['clinput']),
                            encoding = 'utf-8'
         )
         # p = subprocess.Popen(command, 
