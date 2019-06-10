@@ -87,7 +87,7 @@ def exec_command(*args, **kwargs):
         LOGGER.info('Inputting command line arguments')
         newline = os.linesep
         p = subprocess.run(command,
-                           stdout   = PIPE,
+                           stdout   = subprocess.PIPE,
                            input    = newline.join(options['clinput']),
                            encoding = 'utf-8'
         )
