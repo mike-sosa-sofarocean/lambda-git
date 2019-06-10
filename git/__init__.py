@@ -80,19 +80,23 @@ def exec_command(*args, **kwargs):
     options = dict({'cwd': '/tmp', 'env': os.environ}, **kwargs)
     command = ['git'] + list(args)
     LOGGER.info('executing git command: "{}"'.format(' '.join(command)))
-
+    LOGGER.info('Test')
     p, stdout, stderr = None, None, None
 
     if 'clinput' in options:
-        p = subprocess.Popen(command, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE, cwd=options['cwd'],
-                             env=options['env'], universal_newlines=True)
+        LOGGER.info('Inputting command line arguments')
+        p = subprocess.Popen(command, 
+                             stdin  = subprocess.PIPE, 
+                             stdout = subprocess.PIPE,
+                             stderr = subprocess.PIPE,
+                             cwd=options['cwd'],
+                             env=options['env'], 
+                             universal_newlines=True)
         newline = os.linesep
         stdout, stderr = p.communicate( newline.join(options['clinput']) )
     else:
         p = subprocess.Popen(command, 
                              stdout=subprocess.PIPE,
-                             stdin=subprocess.PIPE,
                              stderr=subprocess.PIPE, 
                              cwd=options['cwd'],
                              env=options['env'])
